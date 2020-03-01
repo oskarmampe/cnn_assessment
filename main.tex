@@ -12,7 +12,7 @@
 
 \graphicspath{ {./images/} }
 
-\bibliographystyle{abbrv}
+
 
 \author{Oskar Mampe: 201368087}
 \date{\today}
@@ -201,30 +201,43 @@
 
     \subsection{Change 1: Different Kernel Sizes}
 
-    \subsubsection{Motivation}
+    \subsubsection{Experiments Made}
 
-    The first change I have made do the model, is to tweak the kernel sizes both in the max pool layer as well as convolutional layer. The model seem to favour smaller kernel sizes for the convolutional layers, though it could be partially attributed to the fact that max pool operation can be replaced by a larger stride in the convolutional layers \cite{maxpoolrep}. So I have decided to drop max pooling, but increase the stride by two.
+    The first change I have made do the model, is to tweak the kernel sizes both in the max pool layer as well as convolutional layer. The model seem to favour smaller kernel sizes for the convolutional layers, though it could be partially attributed to the fact that max pool operation can be replaced by a larger stride in the convolutional layers \cite{maxpoolrep}. So I have decided to drop max pooling, but increase the stride by two. The effect of that wasn't as expected, and I did not receive results similar to the paper. Performance has dropped to 41\% on unseen data as seen on the confusion matrix.\\
 
-    \subsubsection{Results}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{first_final}
+        \caption{Removal of Max Pool}
+    \end{figure}
 
-    \subsection{Change 2: Different Optimizer}
+    Next, seeing as the filters from the first layer have not been tested, I have decided to test different sizes of its kernel. I believed that would work as the features from the first layer seem to be extremely important and set the precedent for the following layers. Furthermore, the lower kernel sizes of the previous layers could benefit from having to extract smaller features from a bigger size of features. In conjunction with that I decided to also increase max pooling size and kernel size to 3 to balance it out, similarly to GoogleNet \cite{googlenet}. The experiment lead to 42\% accuracy and overall worse model. As seen by the confusion matrix.\\
 
-    \subsubsection{Motivation}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{7ks_3mp_train}
+        \includegraphics[width=0.5\textwidth]{7ks_3mp}
+        \caption{Increasing Kernel and Max Pool}
+    \end{figure}
 
-    \subsubsection{Results}
+    \subsection{Change 2: Different Output Features}
 
-    \subsection{Change 3: Different Output Features}
+    I have then decided that changing the size of the convolutional kernel or max pool on it's own won't be beneficiary. Therefore, I have decided to change the output features and input features of all the convolutional layers. I have chosen the following parameters for each layer: first convolutional layer (input size = 3, output size = 32, kernel size = 3), second convolutional layer (input size = 32, output size = 64, kernel size = 5), first convolutional layer (input size = 64, output size = 128, kernel size = 5). I have also set all the max pools size of (3,3) and stride of 2. The increase in kernel size and max pool was due to the increased number of outputs. Once through the last layer, the flattened outputs reached dimensions of $100,000$, which was huge. Hence, I used larger pools to reduce the size of these dimensions. The overall effect of that was much more positive rising the accuracy of the model to 53\%.
 
-    \subsubsection{Motivation}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{bigger_output}
+        \caption{Increasing Output features}
+    \end{figure}
 
-    \subsubsection{Results}
+    \subsection{Change 3: Different optimizer}
 
     \subsection{Change 4: More Epochs}
 
-    \subsubsection{Motivation}
 
-    \subsubsection{Results}
+    \subsection{Result}
+    The final result of my network is as following
 
-    \addcontentsline{toc}{chapter}{References}
-    \bibliography{refs}
+    \bibliographystyle{abbrv}
+    \bibliography{ref}
 \end{document}
