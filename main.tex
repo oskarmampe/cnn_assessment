@@ -31,9 +31,9 @@
 
     \subsection{Implementation Decisions}
 
-    When implementing the 2-layer model, I have deleted the last convolutional layer that took in 24-dimensional input and outputted a 32-dimensional output, as that seems the most reasonable jump from 16-dimensional output from the first convolutional layer.\\
+    When implementing the 2-layer model, I have deleted the last convolutional layer that took in 24 feature input and outputted a 32-dimensional output, as that seems the most reasonable jump from 16 feature output from the first convolutional layer.\\
 
-    For the networks with more than 3 convolutional layers, in order to stay consistent, I have decided to follow the linear sequence of increasing the input layer by 8. Therefore, the third layer spits out a 32-dimensional tensor and the fourth layer will then output a 40-dimensional tensor. This also allows the model to train faster, as a larger difference between input and output will take significantly more time. Having to train 8 models takes significant amount of time without time-consuming features. There is an argument that doubling the input for the output features increases the accuracy, however in my experiment all 4 experiments follow the same sequence, so having a layer that does not follow the sequence will skew the results.\\
+    For the networks with more than 3 convolutional layers, in order to stay consistent, I have decided to follow the linear sequence of increasing the input layer by 8. Therefore, the third layer spits out a 32 feature output and the fourth layer will then output 40 features. This also allows the model to train faster, as a larger difference between input and output will take significantly more time. Having to train 8 models takes significant amount of time without time-consuming features. There is an argument that doubling the input for the output features increases the accuracy, however in my experiment all 4 experiments follow the same sequence, so having a layer that does not follow the sequence will skew the results.\\
 
     For the kernel sizes, I have decided to follow the sequence 3, 5, 7, 9. Generally speaking, I wanted to see what effect the larger kernel sizes would have on the network. I have decided to start at 3 as it seems to be the lowest one used in literature.\\
 
@@ -122,19 +122,19 @@
     \subsection{Results}
     \begin{figure}[h!]
         \centering
-        \begin{subfigure}[t]{0.8\textwidth}
+        \begin{subfigure}[t]{0.7\textwidth}
             \centering
-            \includegraphics[width=0.8\textwidth]{Filters_before}
+            \includegraphics[width=0.7\textwidth]{Filters_before}
             \caption{Filters before training}
         \end{subfigure}
-        \begin{subfigure}[t]{0.8\textwidth}
+        \begin{subfigure}[t]{0.7\textwidth}
             \centering
-            \includegraphics[width=0.8\textwidth]{Filters_during}
+            \includegraphics[width=0.7\textwidth]{Filters_during}
             \caption{Filters during training}
         \end{subfigure}
-        \begin{subfigure}[t]{0.8\textwidth}
+        \begin{subfigure}[t]{0.7\textwidth}
             \centering
-            \includegraphics[width=0.8\textwidth]{Filters_after}
+            \includegraphics[width=0.7\textwidth]{Filters_after}
             \caption{Filters after training}
         \end{subfigure}
         \caption{Filters at different times}
@@ -189,11 +189,11 @@
     \end{figure}
 
     \subsection{Comment on the evolution of the features}
-    Once the best model from the previous part has been trained, I have forwarded an image, to see how the image gets transformed over the layers. In the first layer, you can see that the model tries to separate the background from the object. In both figures first picture from the left, you can see that the boat/cat is clearly highlighted, where in the other pictures, the focus is more on the backgrounds, and how the different objects are separated. The first 2 of images on the left seem to have a lot of detail too, but as you go to the right, the detail is lost. This is especially true for the second image with the cat, where 2 of the pictures look close to identical, and the foreground blends with the background.\\
+    Once the best model from the previous part has been trained, I have forwarded an image, to see how the image gets transformed over the layers. In the first layer, you can see that the model tries to separate the background from the object. In both figures first picture from the left, you can see that the boat/baboon is clearly highlighted, where in the other pictures, the focus is more on the backgrounds, and how the different objects are separated. The first 2 of images on the left seem to have a lot of detail too, but as you go to the right, the detail is lost. This is especially true for the second image with the baboon, where 2 of the pictures look close to identical, and the foreground blends with the background.\\
 
-    As you go down the layers, the images get more blurry, which is expected since the images will get smaller and smaller. Alongside getting blurry, the images also increasingly lose detail, but they seem to lose detail in the background not in the foreground. This can be seen with the cat, as it looks like it is zooming in on the cat as you go down the layers.\\
+    As you go down the layers, the images get more blurry, which is expected since the images will get smaller and smaller. Alongside getting blurry, the images also increasingly lose detail, but they seem to lose detail in the background not in the foreground. This can be seen with the baboon, as it looks like it is zooming in on the baboon as you go down the layers.\\
     
-    However, the cat on by the third layer looks like a giant round blur. Although, the model is still being able to track where it is, which is tricky in this image since there is a metal net between the cat and camera. The boat on the other hand seems to be being coloured in black where the boat is. In the first layer, only a particularly dark part of the boat is in black, then by the third layer, almost half the boat is coloured in black.\\
+    However, the baboon, by the third layer, looks like a giant round blur. Although, the model is still being able to track where it is, which is tricky in this image since there is a metal net between the baboon and camera. The boat on the other hand seems to be being coloured in black where the boat is. In the first layer, only a particularly dark part of the boat is in black, then by the third layer, almost half the boat is coloured in black.\\
 
 
     \section{Part IV: Experimenting with Network}
@@ -201,13 +201,11 @@
 
     \subsection{Change 1: Different Kernel Sizes}
 
-    \subsubsection{Experiments Made}
-
-    The first change I have made do the model, is to tweak the kernel sizes both in the max pool layer as well as convolutional layer. The model seem to favour smaller kernel sizes for the convolutional layers, though it could be partially attributed to the fact that max pool operation can be replaced by a larger stride in the convolutional layers \cite{maxpoolrep}. So I have decided to drop max pooling, but increase the stride by two. The effect of that wasn't as expected, and I did not receive results similar to the paper. Performance has dropped to 41\% on unseen data as seen on the confusion matrix.\\
+    The first change I have made do the model, is to tweak the kernel sizes both in the max pool layer as well as convolutional layer. The model seem to favour smaller kernel sizes for the convolutional layers, though it could be partially attributed to the fact that max pool operation can be replaced by a larger stride in the convolutional layers \cite{maxpoolrep}. So, I have decided to drop max pooling, but increase the stride by two. The effect of that wasn't as expected, and I did not receive results similar to the paper. Performance has dropped to 41\% on unseen data as seen on the confusion matrix.\\
 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.5\textwidth]{first_final}
+        \includegraphics[width=0.4\textwidth]{first_final}
         \caption{Removal of Max Pool}
     \end{figure}
 
@@ -215,28 +213,47 @@
 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.5\textwidth]{7ks_3mp_train}
-        \includegraphics[width=0.5\textwidth]{7ks_3mp}
+        \includegraphics[width=0.4\textwidth]{7ks_3mp_train}
+        \includegraphics[width=0.4\textwidth]{7ks_3mp}
         \caption{Increasing Kernel and Max Pool}
     \end{figure}
+    
+    \newpage
 
     \subsection{Change 2: Different Output Features}
 
-    I have then decided that changing the size of the convolutional kernel or max pool on it's own won't be beneficiary. Therefore, I have decided to change the output features and input features of all the convolutional layers. I have chosen the following parameters for each layer: first convolutional layer (input size = 3, output size = 32, kernel size = 3), second convolutional layer (input size = 32, output size = 64, kernel size = 5), first convolutional layer (input size = 64, output size = 128, kernel size = 5). I have also set all the max pools size of (3,3) and stride of 2. The increase in kernel size and max pool was due to the increased number of outputs. Once through the last layer, the flattened outputs reached dimensions of $100,000$, which was huge. Hence, I used larger pools to reduce the size of these dimensions. The overall effect of that was much more positive rising the accuracy of the model to 53\%.
+    I have then decided that changing the size of the convolutional kernel or max pool on it's own won't be beneficiary. Therefore, I have decided to change the output features and input features of all the convolutional layers. I have chosen the following parameters for each layer: first convolutional layer (input size = 3, output size = 32, kernel size = 3), second convolutional layer (input size = 32, output size = 64, kernel size = 5), first convolutional layer (input size = 64, output size = 128, kernel size = 5). Doubling of the output features is popular in literature as most nets use some geometric sequence like AlexNet \cite{alexnet}. I have also set all the max pools size of (3,3) and stride of 2. The increase in kernel size and max pool was due to the increased number of outputs. Once through the last layer, the flattened outputs reached dimensions of $100,000$, which was huge. Hence, I used larger pools to reduce the size of these dimensions. The overall effect of that was much more positive rising the accuracy of the model from 50\% to 53\%.
+
 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.5\textwidth]{bigger_output}
+        \includegraphics[width=0.4\textwidth]{bigger_output}
         \caption{Increasing Output features}
     \end{figure}
 
     \subsection{Change 3: Different optimizer}
 
+    Another change that I thought would help in regard to performance would be a different optimizer. An alternative to stochastic gradient descent (SGD) is ADAM, which functions similarly to SGD, but it has extra functionalities like momentum through a moving average and adaptive learning rates for each layer \cite{adam}. This allows ADAM to better specialise the layers. It's hard to say whether this would be an improvement on my network as the advantages of ADAM are still discussed, with some recent papers pointing towards using SGD instead, as ADAM isn't suited to image classification \cite{adamvssgd}. I have decided to test out ADAM anyway, and I have found that it overfits my model and leads to a poor 22\% accuracy.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{adam}
+        \caption{Using ADAM}
+    \end{figure}
+    
+
     \subsection{Change 4: More Epochs}
 
+    Lastly, the most obvious change would be to add more epochs. The model should gain performance from more epochs, as it should be closer to converging to a global minimum. This is so long as the model is not overfitting throughout the training. Having trained my model over 15 epochs, I have found that it increases my performance to 57\% but it is also has a extremely large difference between training and testing accuracy, meaning that the model has probably converged. To validate the claim, I have trained for 25 epochs, and the validation loss has been going up since 15th epoch, which shows that the model has most likely converged at the 15th epoch.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{final}
+        \caption{15 Epochs and Final Model}
+    \end{figure}
 
     \subsection{Result}
-    The final result of my network is as following
+    My final network has reached accuracy of 57\% and it was due to larger output features, larger masks, and more epochs.
 
     \bibliographystyle{abbrv}
     \bibliography{ref}
